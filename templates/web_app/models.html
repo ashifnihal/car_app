@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Car Models</title>
+    <link rel="stylesheet" href="{% static 'css/home.css'%}">
+</head>
+<body>
+<h1>Car Models</h1>
+<ul>
+    {% for model in car_models %}
+    <li>{{model}}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

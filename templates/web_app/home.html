@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Space</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/web_app/home">Car Space</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/web_app/home">Home<span
+                    class="sr-only">(current)</span></a></li>
+            <li><a href="/web_app/new_cars">New Cars</a></li>
+            <li><a href="/web_app/pre_owned_cars">PreOwned Cars</a></li>
+            <li><a href="/upcoming_cars">Upcoming Cars</a></li>
+        </ul>
+    </div><!--/.container-fluid-->
+</nav>
+<div class="container">
+    {%block body_block%}
+<!-- outside of this block everything availabe to child templates   -->
+{%endblock%}
+</div>
+<ul>
+    <li><a href="/web_app/car_input_data">Add Car Details</a></li>
+    <li><a href="/web_app/car_brand_input_data">Add Car Brands</a></li>
+    <li><a href="/web_app/car_overview_input_data">Add Car Overview</a></li>
+    <li><a href="/web_app/car_brands">Car Brands</a></li>
+    <li><a href="/web_app/car_models">Car Models</a></li>
+    <li><a href="/web_app/car_types">Car Types</a></li>
+</ul>
+</body>
+</html>

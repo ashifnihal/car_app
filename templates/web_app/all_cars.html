@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{%extends 'web_app/home.html'%}
+{% load static %}
+{%block body_block%}
+<br><br><br><br><br><br>
+<h2>Car Models</h2>
+{%if car_list%}
+{% for car in car_list%}
+<table>
+    <thead>
+    <th>bname</th>
+    <th>model</th>
+    <th>year</th>
+    <th>Image</th>
+    </thead>
+    <tr>
+        <td>{{car.bname}}</td>
+        <td>{{car.model}}</td>
+        <td>{{car.year}}</td>
+        <td><a href="/web_app/car/{{car.model}}"><img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}" alt=""></img></a></td>
+    </tr>
+</table>
+{%endfor%}
+{%else%}
+<h2>No Data Exist</h2>
+{%endif%}
+{%endblock%}

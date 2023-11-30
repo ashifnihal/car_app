@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{%extends 'web_app/home.html'%}
+{% load static %}
+{%block body_block%}
+<br><br><br><br><br><br>
+<h1>Welcome to Car Space</h1>
+<img src="{% static 'images/car_brands_logos.png' %}", alt=""> </img>
+<h2>Car Details</h2>
+{% if car_data %}
+<table>
+    <thead>
+    <th>Sno</th>
+    <th>Brand</th>
+    <th>Type</th>
+    <th>Model</th>
+    <th>Year</th>
+    </thead>
+    {% for car in car_data %}
+    <tr>
+        <td>{{car.sno}}</td>
+        <td>{{car.bname}}</td>
+        <td>{{car.type}}</td>
+        <td>{{car.model}}</td>
+        <td>{{car.year}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{%endblock%}

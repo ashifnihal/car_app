@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{%extends 'web_app/home.html'%}
+{%load static%}
+{%block body_block%}
+<br><br><br><br><br><br>
+<h1>Add Car Overview Form</h1>
+<div class="container" align="center">
+    <form method="post">
+        {{add_car_overview.as_p}}
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" name="" value="Submit">
+    </form>
+</div>
+{%endblock%}
+
+
+

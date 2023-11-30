@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{%extends 'web_app/home.html'%}
+{% load static %}
+{%block body_block%}
+<br><br><br><br><br><br>
+<h1>Car Brands</h1>
+<table>
+    <thead>
+    <th>sno</th>
+    <th>name</th>
+    <th>logo</th>
+    <th>country</th>
+    </thead>
+
+    {% for brand in car_brands %}
+    <tr>
+        <td>{{brand.sno}}</td>
+        <td>{{brand.name}}</td>
+        {% if brand.name == "VW"%}
+        <td><img src="{% static 'images/VW.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "AUDI"%}
+        <td><img src="{% static 'images/Audi.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "bmw"%}
+        <td><img src="{% static 'images/bmw.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "chevrolet"%}
+        <td><img src="{% static 'images/chevrolet.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "nissan"%}
+        <td><img src="{% static 'images/nissan.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "toyota"%}
+        <td><img src="{% static 'images/toyota.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "peugeot"%}
+        <td><img src="{% static 'images/peugeot.jpg' %}", alt=""> </img></td>
+        {% elif brand.name == "renault"%}
+        <td><img src="{% static 'images/renault.jpg' %}", alt=""> </img></td>
+                {% elif brand.name == "mercedes-benz"%}
+        <td><img src="{% static 'images/mercedes-benz.jpg' %}", alt=""> </img></td>
+        {% endif %}
+        <td>{{brand.country}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{%endblock%}
