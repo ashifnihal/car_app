@@ -116,6 +116,8 @@ def add_preowned_car_overview(request):
         if add_pre_owned_car_form.is_valid():
             add_pre_owned_car_form.save()
             add_pre_owned_car_form = forms.AddPreOwnedCarOverviewForm()
+    else:
+        add_pre_owned_car_form = forms.AddPreOwnedCarOverviewForm()
     return render(request, "web_app/pre_owned_car_input.html", context={"add_pre_owned_car": add_pre_owned_car_form})
 
 def get_preowned_car_overview(request, car_model):
