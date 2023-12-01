@@ -68,7 +68,10 @@ def show_pre_owned_cars(request):
 
 def get_cars_by_brand(request, bname, new_or_pre_owned):
     print(f"bname:{bname}")
-    all_cars = CarModels.objects.filter(bname=bname, new_or_pre_owned=new_or_pre_owned)
+    if new_or_pre_owned.lower() == "new":
+        all_cars = CarModels.objects.filter(bname=bname, new_or_pre_owned=new_or_pre_owned)
+    else:
+        all_cars = [CarModels.objects.filter(bname=bname, new_or_pre_owned=new_or_pre_owned).first()]
     print(f"all cars : {all_cars}")
     car_list = {"car_list":all_cars}
     return render(request, "web_app/all_cars.html", context=car_list)
