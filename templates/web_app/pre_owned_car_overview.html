@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{%extends 'web_app/home.html'%}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/pre_owned_car.css' %}">
+{%block body_block%}
+<br><br><br><br><br><br>
+<h1>Pre Owned Car Overview</h1>
+<ul>
+    {% for car in car_overview %}
+    <h2>{{car.new_or_pre_owned}}</h2>
+    {% if car.new_or_pre_owned|lower == 'pre_owned'%}
+        <img src="{{car.images.url}}", alt="Car image" class="passport-size" width="500" height="500" align="center">
+        <table>
+            <thead>
+            <th>brand</th>
+            <th>type</th>
+            <th>model</th>
+            <th>year</th>
+            <th>no of owners</th>
+            <th>price</th>
+            <th>Milage</th>
+            <th>Engine</th>
+            <th>Transmission</th>
+            <th>Color</th>
+            <th>Drive Train</th>
+            <th>Fuel Type</th>
+            <th>Kilometer Reading</th>
+            <th>Year of Reg</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Pin Code</th>
+            <th>Address</th>
+            <th>Description</th>
+            </thead>
+        <tr>
+            <td>{{car.bname}}</td>
+            <td>{{car.type}}</td>
+            <td>{{car.model}}</td>
+            <td>{{car.year}}</td>
+            <td>{{car.no_of_owners}}</td>
+            <td>{{car.price}}</td>
+            <td>{{car.milage}}</td>
+            <td>{{car.engine}}</td>
+            <td>{{car.transmission}}</td>
+            <td>{{car.color}}</td>
+            <td>{{car.drive_train}}</td>
+            <td>{{car.fuel_type}}</td>
+            <td>{{car.kilometer_reading}}</td>
+            <td>{{car.registration_year}}</td>
+            <td>{{car.city}}</td>
+            <td>{{car.state}}</td>
+            <td>{{car.pin_code}}</td>
+            <td>{{car.address}}</td>
+            <td>{{car.headline}}</td>
+        </tr>
+        </table>
+    {% endif %}
+    {% endfor %}
+</ul>
+</html>
+{%endblock%}

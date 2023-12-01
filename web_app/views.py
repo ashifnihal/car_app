@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-from .models import CarModels, CarBrands, CarOverview
+from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview
 from . import forms
 
 # Create your views here.
@@ -64,7 +64,7 @@ def show_new_cars(request):
     return render(request, "web_app/new_cars.html")
 
 def show_pre_owned_cars(request):
-    return render(request, "web_app/pre-owned-cars.html")
+    return render(request, "web_app/pre-owned-car-brands.html")
 
 def get_cars_by_brand(request, bname, new_or_pre_owned):
     print(f"bname:{bname}")
@@ -110,11 +110,23 @@ def add_car_overview(request):
     add_car_overview = {"add_car_overview": add_car_overview_form}
     return render(request, "web_app/car_overview_input.html", context=add_car_overview)
 
+def add_preowned_car_overview(request):
+    if request.method == 'POST':
+        add_pre_owned_car_form = forms.AddPreOwnedCarOverviewForm(request.POST, request.FILES)
+        if add_pre_owned_car_form.is_valid():
+            add_pre_owned_car_form.save()
+            add_pre_owned_car_form = forms.AddPreOwnedCarOverviewForm()
+    return render(request, "web_app/pre_owned_car_input.html", context={"add_pre_owned_car": add_pre_owned_car_form})
+
+def get_preowned_car_overview(request, car_model):
+    get_car_overview = PreOwnedCarsOverview.objects.filter(model=car_model)
+    car_overview = {"car_overview": get_car_overview}
+    return render(request, "web_app/pre_owned_car_overview.html", context=car_overview)
 
 class CarOverviewView(View):
 
     def get(self, request, car_model, *args, **kwargs):
-        get_car_overview = CarOverview.objects.filter(model=car_model, )
+        get_car_overview = CarOverview.objects.filter(model=car_model,new_or_pre_owned='new')
         print(f"car overview:{get_car_overview}")
         car_overview = {"car_overview":get_car_overview}
         return render(request, "web_app/car_overview.html", context=car_overview)
