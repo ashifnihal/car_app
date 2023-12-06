@@ -1,5 +1,5 @@
 from django import forms
-from .models import CarBrands, CarOverview, PreOwnedCarsOverview
+from .models import CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview
 
 class AddPreOwnedCarOverviewForm(forms.ModelForm):
     class Meta:
@@ -65,5 +65,24 @@ class AddCarOverviewForm(forms.ModelForm):
         types = ["SUV", "MPV", "SEDAN", "HATCHBACK", "COMPACT SUV", "WAGON"]
         if year > 2023:
             raise forms.ValidationError("year shoud not be more than current year")
+        if type.upper() not in types:
+            raise forms.ValidationError(f"type should be one of these {types}")
+
+class AddUpcomingCarOverviewForm(forms.ModelForm):
+
+    class Meta:
+        model = UpcomingCarOverview
+        fields = "__all__"
+
+    def clean(self):
+        year = self.cleaned_data['year']
+        type = self.cleaned_data['type']
+        bname = self.cleaned_data['bname']
+        model = self.cleaned_data['model']
+        if not year or not type or not bname or not model:
+            raise forms.ValidationError("Please fill all the fields")
+        types = ["SUV", "MPV", "SEDAN", "HATCHBACK", "COMPACT SUV", "WAGON"]
+        # if year > 2023:
+        #     raise forms.ValidationError("year shoud not be more than current year")
         if type.upper() not in types:
             raise forms.ValidationError(f"type should be one of these {types}")

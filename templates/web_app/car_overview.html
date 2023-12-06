@@ -7,8 +7,8 @@
 <h1>Car Overview</h1>
 <ul>
     {% for car in car_overview %}
-    <h2>{{car.new_or_pre_owned}}</h2>
-    {% if car.new_or_pre_owned == 'new'%}
+    <h2>{{car.new_or_pre_owned_or_upcoming}}</h2>
+    {% if car.new_or_pre_owned_or_upcoming == 'new'%}
         <img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}", alt=""> </img>
         <table>
             <thead>
@@ -42,7 +42,7 @@
             <td>{{car.description}}</td>
         </tr>
         </table>
-    {% elif car.new_or_pre_owned == 'pre_owned'%}
+    {% elif car.new_or_pre_owned_or_upcoming == 'pre_owned'%}
     <img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}", alt=""> </img>
     <table>
             <thead>

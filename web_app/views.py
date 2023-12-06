@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview
+from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview
 from . import forms
 
 # Create your views here.
@@ -66,12 +66,15 @@ def show_new_cars(request):
 def show_pre_owned_cars(request):
     return render(request, "web_app/pre-owned-car-brands.html")
 
+def show_upcomming_cars(request):
+    return render(request, "web_app/upcomming_car_brands.html")
+
 def get_cars_by_brand(request, bname, new_or_pre_owned):
     print(f"bname:{bname}")
-    if new_or_pre_owned.lower() == "new":
-        all_cars = CarModels.objects.filter(bname=bname, new_or_pre_owned=new_or_pre_owned)
+    if new_or_pre_owned.lower() in ["new", 'upcoming']:
+        all_cars = CarModels.objects.filter(bname=bname, new_or_pre_owned_or_upcoming=new_or_pre_owned)
     else:
-        all_cars = [CarModels.objects.filter(bname=bname, new_or_pre_owned=new_or_pre_owned).first()]
+        all_cars = [CarModels.objects.filter(bname=bname, new_or_pre_owned_or_upcoming=new_or_pre_owned).first()]
     print(f"all cars : {all_cars}")
     car_list = {"car_list":all_cars}
     return render(request, "web_app/all_cars.html", context=car_list)
@@ -123,15 +126,30 @@ def add_preowned_car_overview(request):
         add_pre_owned_car_form = forms.AddPreOwnedCarOverviewForm()
     return render(request, "web_app/pre_owned_car_input.html", context={"add_pre_owned_car": add_pre_owned_car_form})
 
+def add_upcoming_car_overview(request):
+    if request.method == 'POST':
+        add_upcoming_car_form = forms.AddUpcomingCarOverviewForm(request.POST, request.FILES)
+        if add_upcoming_car_form.is_valid():
+            add_upcoming_car_form.save()
+            add_upcoming_car_form = forms.AddUpcomingCarOverviewForm()
+    else:
+        add_upcoming_car_form = forms.AddUpcomingCarOverviewForm()
+    return render(request, "web_app/add_upcoming_car_input.html", context={"add_upcoming_car": add_upcoming_car_form})
+
 def get_preowned_car_overview(request, car_model):
     get_car_overview = PreOwnedCarsOverview.objects.filter(model=car_model)
     car_overview = {"car_overview": get_car_overview}
     return render(request, "web_app/pre_owned_car_overview.html", context=car_overview)
 
+def get_upcoming_car_overview(request, car_model):
+    get_car_overview = UpcomingCarOverview.objects.filter(model=car_model)
+    car_overview = {"car_overview": get_car_overview}
+    return render(request, "web_app/upcoming_car_overview.html", context=car_overview)
+
 class CarOverviewView(View):
 
     def get(self, request, car_model, *args, **kwargs):
-        get_car_overview = CarOverview.objects.filter(model=car_model,new_or_pre_owned='new')
+        get_car_overview = CarOverview.objects.filter(model=car_model, new_or_pre_owned_or_upcoming='new')
         print(f"car overview:{get_car_overview}")
         car_overview = {"car_overview":get_car_overview}
         return render(request, "web_app/car_overview.html", context=car_overview)

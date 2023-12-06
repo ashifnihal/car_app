@@ -10,7 +10,7 @@
     <th>bname</th>
     <th>model</th>
     <th>year</th>
-    <th>New/Pre_owned</th>
+    <th>New/Pre_owned/Up Coming</th>
     <th>Image</th>
     </thead>
     {% for car in car_list%}
@@ -18,11 +18,13 @@
         <td>{{car.bname}}</td>
         <td>{{car.model}}</td>
         <td>{{car.year}}</td>
-        <td>{{car.new_or_pre_owned}}</td>
-        {%if car.new_or_pre_owned == 'new'%}
+        <td>{{car.new_or_pre_owned_or_upcoming}}</td>
+        {%if car.new_or_pre_owned_or_upcoming == 'new'%}
             <td><a href="/web_app/car/{{car.model}}"><img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}" alt=""></img></a></td>
-        {% else %}
+        {% elif  car.new_or_pre_owned_or_upcoming == 'pre_owned'%}
         <td><a href="/web_app/pre_owned_car/{{car.model}}"><img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}" alt=""> </img></a></td>
+        {% else %}
+        <td><a href="/web_app/upcoming_car/{{car.model}}"><img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}" alt=""> </img></a></td>
         {% endif %}
     </tr>
     {%endfor%}

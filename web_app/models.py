@@ -8,7 +8,7 @@ class CarModels(models.Model):
     model = models.CharField(max_length=100, default=None)
     year = models.IntegerField()
     image = models.CharField(max_length=500)
-    new_or_pre_owned = models.CharField(max_length=100, choices=[('new', 'New'), ('pre_owned', 'Pre_Owned')])
+    new_or_pre_owned_or_upcoming = models.CharField(max_length=100, choices=[('new', 'New'), ('pre_owned', 'Pre_Owned'), ('up_coming', 'Up_Coming')])
 
 class CarOverview(CarModels):
     varients = models.CharField(max_length=1000)
@@ -46,6 +46,10 @@ class PreOwnedCarsOverview(CarModels):
     address = models.TextField()
     headline = models.CharField(max_length=5000)
 
+class UpcomingCarOverview(CarOverview):
+    expected_release_date = models.DateField()
+    images = models.ImageField(upload_to='static/images/upcoming_cars/')
+    expected_price_range = models.CharField(max_length=1000)
 
 
 
