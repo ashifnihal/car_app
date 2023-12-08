@@ -3,14 +3,17 @@
 {%load static%}
 {%block body_block%}
 <br><br><br><br><br><br>
-<h1 align="center">User Registration</h1>
+<!--<h1>Login to Car Space</h1>-->
+<h1 align="center">User Login</h1>
 <div class="container" align="center">
     <form method="post">
-        {{register_user.as_p}}
+        {{login_user.as_p}}
         {% csrf_token %}
         <input type="submit" class="btn btn-primary" name="" value="Submit">
     </form>
-    <ul><li><a href="/web_app/login_user/">User Login</a></li></ul>
+    <ul>
+    <li><a href="/web_app/register_user/"  align="center">User Signup</a></li>
+    </ul>
     <img class="center-image" src="{% static 'images/car_brands_logos.png' %}", alt="", align="center"> </img>
 </div>
 {%endblock%}

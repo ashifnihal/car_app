@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^upcoming_car/(?P<car_model>\w+)/$', views.get_upcoming_car_overview),
     url(r'^car/(?P<car_model>\w+)/$', views.CarOverviewView.as_view()),
     url('car_input_data/', views.carInputView),
-    url('register_user/', views.register_user)
+    url('register_user/', views.register_user),
+    url('login_user/', views.user_login)
 ]

@@ -156,6 +156,16 @@ def register_user(request):
         register_user_form = forms.RegisterUserForm()
     return render(request, "web_app/register_user.html", context = {"register_user": register_user_form})
 
+def user_login(request):
+    user_login_form = forms.UserLoginForm()
+    if request.method == 'POST':
+        user_login_form = forms.UserLoginForm(request.POST)
+
+        if user_login_form.is_valid():
+            return render(request, "web_app/car_home.html")
+    return render(request, "web_app/login.html", context={"login_user": user_login_form})
+
+
 class CarOverviewView(View):
 
     def get(self, request, car_model, *args, **kwargs):

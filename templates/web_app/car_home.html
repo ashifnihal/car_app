@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 {%extends 'web_app/home.html'%}
 {% load static %}
+ <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {%block body_block%}
 <br><br><br><br><br><br>
-<h1>Welcome to Car Space</h1>
-<img src="{% static 'images/car_brands_logos.png' %}", alt=""> </img>
+<h1 align="center">Welcome to Car Space</h1>
+<div align="center">
+<img class="center-image" src="{% static 'images/car_brands_logos.png' %}", align="center"> </img>
+</div>
 <h2>Car Details</h2>
 {% if car_data %}
 <table>

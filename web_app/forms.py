@@ -117,3 +117,27 @@ class RegisterUserForm(forms.ModelForm):
         except CarUser.DoesNotExist:
             print("valid case")
 
+class UserLoginForm(forms.ModelForm):
+    class Meta:
+        model = CarUser
+        fields = ['email', 'password']
+        widgets = {
+            'password': forms.PasswordInput()
+        }
+        labels = {
+            'email': 'User Name',  # Renaming 'email' field label
+            'password': 'Password',  # Renaming 'password' field label
+        }
+    def clean(self):
+        user_name = self.cleaned_data["email"]
+        password = self.cleaned_data['password']
+        print(f"username: {user_name} password: {password}")
+        try:
+            car_data = CarUser.objects.get(email=user_name)
+            if not user_name == car_data.email:
+                raise forms.ValidationError(f"Please enter valid username")
+            if not password == car_data.password:
+                raise forms.ValidationError(f"Please enter valid password")
+        except CarUser.DoesNotExist:
+            raise forms.ValidationError(f"User Does not exist Please register")
+
