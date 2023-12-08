@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview
+from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview, CarUser
 from . import forms
 
 # Create your views here.
@@ -145,6 +145,16 @@ def get_upcoming_car_overview(request, car_model):
     get_car_overview = UpcomingCarOverview.objects.filter(model=car_model)
     car_overview = {"car_overview": get_car_overview}
     return render(request, "web_app/upcoming_car_overview.html", context=car_overview)
+
+def register_user(request):
+    if request.method == 'POST':
+        register_user_form = forms.RegisterUserForm(request.POST)
+        if register_user_form.is_valid():
+            register_user_form.save()
+            return render(request, "web_app/new_cars.html")
+    else:
+        register_user_form = forms.RegisterUserForm()
+    return render(request, "web_app/register_user.html", context = {"register_user": register_user_form})
 
 class CarOverviewView(View):
 

@@ -64,5 +64,12 @@ class CarBrands(models.Model):
     country = models.CharField(max_length=100)
     objects = CustomManager()
 
+class CarUser(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=12)
+    mobile_no = models.IntegerField()
+
+
 
 
