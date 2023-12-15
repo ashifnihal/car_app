@@ -7,43 +7,42 @@
 <h1 align="center">Upcoming Car Overview</h1>
 <ul>
     {% for car in car_overview %}
-    <h2>{{car.new_or_pre_owned_or_upcoming}}</h2>
     {% if car.new_or_pre_owned_or_upcoming|lower == 'up_coming'%}
         <img src="{{car.images.url}}", alt="Car image" class="passport-size" width="500" height="500" align="center">
-        <table>
-            <thead>
-            <th>brand</th>
-            <th>type</th>
-            <th>model</th>
-            <th>year</th>
-            <th>vech type</th>
-            <th>expected price</th>
-            <th>Milage</th>
-            <th>Engine</th>
-            <th>Transmission</th>
-            <th>Color</th>
-            <th>Drive Train</th>
-            <th>expected_release_date</th>
-            <th>Fuel Type</th>
-            <th>Description</th>
-            </thead>
-        <tr>
-            <td>{{car.bname}}</td>
-            <td>{{car.type}}</td>
-            <td>{{car.model}}</td>
-            <td>{{car.year}}</td>
-            <td>{{car.new_or_pre_owned_or_upcoming}}</td>
-            <td>{{car.expected_price_range}}</td>
-            <td>{{car.milage}}</td>
-            <td>{{car.engine}}</td>
-            <td>{{car.transmission}}</td>
-            <td>{{car.colors}}</td>
-            <td>{{car.drive_train}}</td>
-            <td>{{car.expected_release_date}}</td>
-            <td>{{car.varients}}</td>
-            <td>{{car.description}}</td>
-        </tr>
-        </table>
+        <div class="car-details">
+            <h2>{{car.bname}} {{car.model}}</h2>
+            <dl>
+                <div>
+                    <dt>Type</dt>
+                    <dd>{{car.type}}</dd>
+                </div>
+                <div>
+                    <dt>Year</dt>
+                    <dd>{{car.year}}</dd>
+                </div>
+                <!-- Other properties -->
+            </dl>
+            <div>
+                <h3 title="bold">Technical Specifications</h3>
+                <ul>
+                    <li><dt>Mileage:</dt> {{car.mileage}}</li>
+                    <li><dt>Engine:</dt> {{car.engine}}</li>
+                    <li><dt>Transmission:</dt> {{car.transmission}}</li>
+                    <li><dt>Drive Train:</dt> {{car.drive_train}}</li>
+                    <li><dt>varients:</dt> {{car.varients}}</li>
+                    <!-- Other technical specs -->
+                </ul>
+            </div>
+            <!-- Other sections like colors, variants, description, etc. -->
+            <div>
+                <h3>Other Details</h3>
+                <ul>
+                    <li><dt>Colors:</dt> {{car.colors}}</li>
+                    <li><dt>Expected release date:</dt> {{car.expected_release_date}}</li>
+                    <li><dt>Description:</dt> {{car.description}}</li>
+                </ul>
+            </div>
+        </div>
     {% endif %}
     {% endfor %}
 </ul>

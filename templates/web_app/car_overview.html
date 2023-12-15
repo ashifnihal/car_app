@@ -7,71 +7,43 @@
 <h1 align="center">Car Overview</h1>
 <ul>
     {% for car in car_overview %}
-    <h2>{{car.new_or_pre_owned_or_upcoming}}</h2>
     {% if car.new_or_pre_owned_or_upcoming == 'new'%}
         <img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}", alt=""> </img>
-        <table>
-            <thead>
-            <th>brand</th>
-            <th>type</th>
-            <th>model</th>
-            <th>year</th>
-            <th>varients</th>
-            <th>Ex showroom price</th>
-            <th>Milage</th>
-            <th>Engine</th>
-            <th>Transmission</th>
-            <th>Seating Capacity</th>
-            <th>Colors</th>
-            <th>User Review</th>
-            <th>Description</th>
-            </thead>
-        <tr>
-            <td>{{car.bname}}</td>
-            <td>{{car.type}}</td>
-            <td>{{car.model}}</td>
-            <td>{{car.year}}</td>
-            <td>{{car.varients}}</td>
-            <td>{{car.ex_showroom_price}}</td>
-            <td>{{car.milage}}</td>
-            <td>{{car.engine}}</td>
-            <td>{{car.transmission}}</td>
-            <td>{{car.seating_capacity}}</td>
-            <td>{{car.colors}}</td>
-            <td>{{car.user_review}}</td>
-            <td>{{car.description}}</td>
-        </tr>
-        </table>
-    {% elif car.new_or_pre_owned_or_upcoming == 'pre_owned'%}
-    <img src="{% static 'images/cars/' %}{{ car.bname }}/models/{{ car.image }}", alt=""> </img>
-    <table>
-            <thead>
-                <th>brand</th>
-                <th>type</th>
-                <th>model</th>
-                <th>year</th>
-                <th>Milage</th>
-                <th>Kilometer Reading</th>
-                <th>Engine</th>
-                <th>Transmission</th>
-                <th>Seating Capacity</th>
-                <th>Color</th>
-                <th>Description</th>
-            </thead>
-                <tr>
-                    <td>{{car.bname}}</td>
-                    <td>{{car.type}}</td>
-                    <td>{{car.model}}</td>
-                    <td>{{car.year}}</td>
-                    <td>{{car.milage}}</td>
-                    <td>{{car.kilometer_reading}}</td>
-                    <td>{{car.engine}}</td>
-                    <td>{{car.transmission}}</td>
-                    <td>{{car.seating_capacity}}</td>
-                    <td>{{car.colors}}</td>
-                    <td>{{car.description}}</td>
-                </tr>
-    </table>
+        <div class="car-details">
+            <h2>{{car.bname}} {{car.model}}</h2>
+            <dl>
+                <div>
+                    <dt>Type</dt>
+                    <dd>{{car.type}}</dd>
+                </div>
+                <div>
+                    <dt>Year</dt>
+                    <dd>{{car.year}}</dd>
+                </div>
+                <!-- Other properties -->
+            </dl>
+            <div>
+                <h3 title="bold">Technical Specifications</h3>
+                <ul>
+                    <li><dt>Mileage:</dt> {{car.mileage}}</li>
+                    <li><dt>Engine:</dt> {{car.engine}}</li>
+                    <li><dt>Transmission:</dt> {{car.transmission}}</li>
+                    <li><dt>Drive Train:</dt> {{car.drive_train}}</li>
+                    <li><dt>varients:</dt> {{car.varients}}</li>
+                    <!-- Other technical specs -->
+                </ul>
+            </div>
+            <!-- Other sections like colors, variants, description, etc. -->
+            <div>
+                <h3>Other Details</h3>
+                <ul>
+                    <li><dt>Colors:</dt> {{car.colors}}</li>
+                    <li><dt>Seating Capacity:</dt>{{car.seating_capacity}}</li>
+                    <li><dt>Ex showroom price:</dt> {{car.ex_showroom_price}}</li>
+                    <li><dt>Description:</dt> {{car.description}}</li>
+                </ul>
+            </div>
+        </div>
     {% endif %}
     {% endfor %}
 </ul>
