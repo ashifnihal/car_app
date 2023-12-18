@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview, CarUser
 from . import forms
 
@@ -10,6 +13,7 @@ from . import forms
 def get_details(request):
     return HttpResponse("<h1>Welcome to django web app</h1>")
 
+# @login_required
 def get_cars(request):
     car_data = CarModels.objects.all()
     return render(request, "web_app/car_home.html", {"car_data":car_data.values()})
@@ -136,6 +140,7 @@ def add_upcoming_car_overview(request):
         add_upcoming_car_form = forms.AddUpcomingCarOverviewForm()
     return render(request, "web_app/add_upcoming_car_input.html", context={"add_upcoming_car": add_upcoming_car_form})
 
+# @login_required
 def get_preowned_car_overview(request, car_model):
     get_car_overview = PreOwnedCarsOverview.objects.filter(model=car_model)
     car_overview = {"car_overview": get_car_overview}
@@ -151,28 +156,37 @@ def register_user(request):
         register_user_form = forms.RegisterUserForm(request.POST)
         if register_user_form.is_valid():
             register_user_form.save()
-            return render(request, "web_app/new_cars.html")
+            # return redirect('user_login')
+            return render(request, "web_app/login.html")
     else:
         register_user_form = forms.RegisterUserForm()
     return render(request, "web_app/register_user.html", context = {"register_user": register_user_form})
 
+# @login_required
 def user_login(request):
     user_login_form = forms.UserLoginForm()
     if request.method == 'POST':
         user_login_form = forms.UserLoginForm(request.POST)
-
         if user_login_form.is_valid():
+            username = user_login_form.cleaned_data['email']
+            password = user_login_form.cleaned_data['password']
+            try:
+                user = authenticate(request, username=username, password=password)
+                print("usr auth", user)
+                login(request, user)
+            except Exception as err:
+                print(err)
             return render(request, "web_app/car_home.html")
-    return render(request, "web_app/login.html", context={"login_user": user_login_form})
+    return render(request, "web_app/login.html", context={"login_user": user_login_form, 'user': request.user})
 
 
 class CarOverviewView(View):
-
+    # @method_decorator(login_required)  # Apply the login_required decorator to the get method
     def get(self, request, car_model, *args, **kwargs):
         get_car_overview = CarOverview.objects.filter(model=car_model, new_or_pre_owned_or_upcoming='new')
         print(f"car overview:{get_car_overview}")
-        car_overview = {"car_overview":get_car_overview}
-        return render(request, "web_app/car_overview.html", context=car_overview)
+        car_overview = {"car_overview": get_car_overview}
+        return render(request, "web_app/car_overview.html", context=car_overview) # Or redirect to a login page
 
 
 

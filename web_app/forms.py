@@ -1,5 +1,6 @@
 import re
 from django import forms
+from django.contrib.auth.models import User
 from .models import CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview, CarUser
 
 class AddPreOwnedCarOverviewForm(forms.ModelForm):
@@ -91,14 +92,18 @@ class AddUpcomingCarOverviewForm(forms.ModelForm):
 class RegisterUserForm(forms.ModelForm):
 
     class Meta:
-        model = CarUser
-        fields = "__all__"
+        model = User
+        # fields = "__all__"
+        fields = ['username', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput()
         }
+        help_texts = {
+            'username': None,  # Set the help_text for 'username' field to None to remove the suggestion
+        }
     def clean(self):
         password = self.cleaned_data['password']
-        mobile_no = self.cleaned_data["mobile_no"]
+        # mobile_no = self.cleaned_data["mobile_no"]
         email = self.cleaned_data["email"]
         if len(password)<8 or len(password)>12:
             raise forms.ValidationError(f"password contains min 8 chars and max 12 chars")
@@ -108,18 +113,18 @@ class RegisterUserForm(forms.ModelForm):
                 not re.search(r"[ !@#$%^&*()_+=\[{\]};:<>|./?,-]", password)):
             raise forms.ValidationError('password must contains at least 1 capital letter and 1 '
                                         'small letter and 1 digit [0-9] and 1 special character !@#$%^&*()_+=\[{\]};:<>|./?')
-        if len(str(mobile_no))<10 or len(str(mobile_no))>12:
-            raise forms.ValidationError("please enter a valid mobile no")
+        # if len(str(mobile_no))<10 or len(str(mobile_no))>12:
+        #     raise forms.ValidationError("please enter a valid mobile no")
         try:
-            car_data = CarUser.objects.get(email=email)
+            car_data = User.objects.get(email=email)
             if car_data:
                 raise forms.ValidationError("User already registered")
-        except CarUser.DoesNotExist:
+        except User.DoesNotExist:
             print("valid case")
 
 class UserLoginForm(forms.ModelForm):
     class Meta:
-        model = CarUser
+        model = User
         fields = ['email', 'password']
         widgets = {
             'password': forms.PasswordInput()
@@ -133,11 +138,11 @@ class UserLoginForm(forms.ModelForm):
         password = self.cleaned_data['password']
         print(f"username: {user_name} password: {password}")
         try:
-            car_data = CarUser.objects.get(email=user_name)
+            car_data = User.objects.get(email=user_name)
             if not user_name == car_data.email:
                 raise forms.ValidationError(f"Please enter valid username")
             if not password == car_data.password:
                 raise forms.ValidationError(f"Please enter valid password")
-        except CarUser.DoesNotExist:
+        except User.DoesNotExist:
             raise forms.ValidationError(f"User Does not exist Please register")
 
