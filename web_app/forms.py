@@ -1,6 +1,5 @@
 import re
 from django import forms
-from django.contrib.auth.models import User
 from .models import CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview, CarUser
 
 class AddPreOwnedCarOverviewForm(forms.ModelForm):
@@ -92,14 +91,11 @@ class AddUpcomingCarOverviewForm(forms.ModelForm):
 class RegisterUserForm(forms.ModelForm):
 
     class Meta:
-        model = User
+        model = CarUser
         # fields = "__all__"
-        fields = ['username', 'email', 'password']
+        fields = ['name', 'email', 'mobile_no', 'password']
         widgets = {
             'password': forms.PasswordInput()
-        }
-        help_texts = {
-            'username': None,  # Set the help_text for 'username' field to None to remove the suggestion
         }
     def clean(self):
         password = self.cleaned_data['password']
@@ -116,33 +112,32 @@ class RegisterUserForm(forms.ModelForm):
         # if len(str(mobile_no))<10 or len(str(mobile_no))>12:
         #     raise forms.ValidationError("please enter a valid mobile no")
         try:
-            car_data = User.objects.get(email=email)
+            car_data = CarUser.objects.get(email=email)
             if car_data:
                 raise forms.ValidationError("User already registered")
-        except User.DoesNotExist:
+        except CarUser.DoesNotExist:
             print("valid case")
 
 class UserLoginForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = CarUser
         fields = ['email', 'password']
         widgets = {
             'password': forms.PasswordInput()
         }
-        labels = {
-            'email': 'User Name',  # Renaming 'email' field label
-            'password': 'Password',  # Renaming 'password' field label
-        }
     def clean(self):
-        user_name = self.cleaned_data["email"]
+        email = self.cleaned_data["email"]
         password = self.cleaned_data['password']
-        print(f"username: {user_name} password: {password}")
+        print(f"username: {email} password: {password}")
         try:
-            car_data = User.objects.get(email=user_name)
-            if not user_name == car_data.email:
+            car_data = CarUser.objects.get(email=email)
+            if car_data.is_loggedin:
+                raise forms.ValidationError(f"User {car_data.name} Already Loged in please Logout and login again")
+            if not email == car_data.email:
                 raise forms.ValidationError(f"Please enter valid username")
+            print(f"password:{password}, dabase passwd:{car_data.password}")
             if not password == car_data.password:
                 raise forms.ValidationError(f"Please enter valid password")
-        except User.DoesNotExist:
+        except car_data.DoesNotExist:
             raise forms.ValidationError(f"User Does not exist Please register")
 

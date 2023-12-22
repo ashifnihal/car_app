@@ -1,9 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from .models import CarModels, CarBrands, CarOverview, PreOwnedCarsOverview, UpcomingCarOverview, CarUser
 from . import forms
 
@@ -165,19 +162,17 @@ def register_user(request):
 # @login_required
 def user_login(request):
     user_login_form = forms.UserLoginForm()
+    user_login = False
     if request.method == 'POST':
         user_login_form = forms.UserLoginForm(request.POST)
         if user_login_form.is_valid():
-            username = user_login_form.cleaned_data['email']
-            password = user_login_form.cleaned_data['password']
+            email = user_login_form.cleaned_data['email']
             try:
-                user = authenticate(request, username=username, password=password)
-                print("usr auth", user)
-                login(request, user)
+                CarUser.objects.filter(email=email).update(is_loggedin=True)
             except Exception as err:
                 print(err)
             return render(request, "web_app/car_home.html")
-    return render(request, "web_app/login.html", context={"login_user": user_login_form, 'user': request.user})
+    return render(request, "web_app/login.html", context={"login_user": user_login_form, 'user_login': user_login})
 
 
 class CarOverviewView(View):

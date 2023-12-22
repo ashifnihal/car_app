@@ -69,6 +69,7 @@ class CarUser(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=12)
     mobile_no = models.IntegerField()
+    is_loggedin = models.BooleanField(default=False)
 
 
 

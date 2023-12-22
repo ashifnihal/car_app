@@ -3,13 +3,13 @@
 {%load static%}
 {%block body_block%}
 <br><br><br><br><br><br>
-{{user}}
-{{user.is_authenticated}}
-{% if user.is_authenticated %}
+{{user_login}}
+{% if user_login %}
     <!-- Show login icon or user-specific content -->
     <div class="user-content">
         <!-- Your login icon or user-specific content goes here -->
         <img src="{% static 'images/logos/login_logo.jpg' %}" alt="User Icon">
+        <h3>User Already Loggedin</h3>
     </div>
 {% endif %}
 <!--<h1>Login to Car Space</h1>-->
